@@ -225,6 +225,7 @@ void clear_game() {
 }
 
 void redraw_game() {
+    werase(game_wnd);
     int board_size = b.size();
 
     // print frame
