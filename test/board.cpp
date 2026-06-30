@@ -4,6 +4,12 @@
 
 std::srand(0);
 
+class TestBoard: public Board {
+    bool operator==(const TestBoard& other) const {
+        return board == other.board;
+    }
+}
+
 TEST(Board, Move_up_with_changes) {
     EXPECT_EQ(2 + 2, 4);
 }
