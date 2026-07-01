@@ -20,5 +20,5 @@ class Board {
     size_t size() { return board.size(); };
 
     int at(size_t i, size_t j) const { return board[i][j]; };
-
+    void add_block_for_test(int i, int j, int val = 2) { board[i][j] = val; };
 };

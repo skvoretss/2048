@@ -1,19 +1,24 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <cstdlib> 
 #include "Board.h"
-
-std::srand(0);
 
 class TestBoard: public Board {
     bool operator==(const TestBoard& other) const {
         return board == other.board;
     }
-}
+};
 
 TEST(Board, Move_up_with_changes) {
-    EXPECT_EQ(2 + 2, 4);
-}
+    TestBoard b, expected_b;
 
+    b.add_block_for_test(3, 0);
+    expected_b.add_block_for_test(0, 0);
+
+    b.update_board(1);
+    EXPECT_EQ(b, expected_b);
+}
+/*
 TEST(Board, Move_down_with_changes) {
     EXPECT_EQ(2 + 2, 4);
 }
@@ -65,9 +70,10 @@ TEST(Board, Method_clear) {
 TEST(Board, Method_add_block) {
     EXPECT_EQ(2 + 2, 4);
 }
-
+*/
 int main(int argc, char **argv)
 {
+    std::srand(0);
   ::testing::InitGoogleTest(&argc, argv);
   ::testing::InitGoogleMock(&argc, argv);
   

@@ -1,8 +1,10 @@
-CFLAGS = -std=c++17 -Wall -pedantic
+CFLAGS = -std=c++17 -Wall -pedantic -Isrc
 
 bin/main: bin/main.o bin/game.o bin/board.o
 	g++ -g -o bin/main bin/main.o bin/game.o bin/board.o $(CFLAGS) -lncurses
 
+clean:
+	rm -rf *.o bin/ test/bin/
 
 bin/main.o: src/main.cpp
 	mkdir -p bin	
@@ -12,10 +14,14 @@ bin/board.o: src/Board.cpp src/Board.h
 	mkdir -p bin	
 	g++ -g -c -o bin/board.o src/Board.cpp $(CFLAGS)
 
-
 bin/game.o: src/game.cpp src/game.h 
 	mkdir -p bin	
 	g++ -g -c -o bin/game.o src/game.cpp $(CFLAGS)
 
-clean:
-	rm -rf *.o bin/
+test/bin/board.o: test/board.cpp
+	mkdir -p test/bin
+	g++ -g -c -o test/bin/board.o test/board.cpp $(CFLAGS)
+
+test: test/bin/board.o bin/board.o
+	g++ -g -o bin/test test/bin/board.o bin/board.o $(CFLAGS)
+	./bin/test
