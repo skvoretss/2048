@@ -20,8 +20,8 @@ bin/game.o: src/game.cpp src/game.h
 
 test/bin/board.o: test/board.cpp
 	mkdir -p test/bin
-	g++ -g -c -o test/bin/board.o test/board.cpp $(CFLAGS)
+	g++ -g -c -o test/bin/board.o test/board.cpp $(CFLAGS) -lgtest -lgtest_main
 
 test: test/bin/board.o bin/board.o
-	g++ -g -o bin/test test/bin/board.o bin/board.o $(CFLAGS)
+	g++ -g -o bin/test test/bin/board.o bin/board.o $(CFLAGS) -lgmock -lgtest -lgtest_main
 	./bin/test
