@@ -33,7 +33,7 @@ int init() {
     info_wnd = newwin(info_area.height(), info_area.width(), info_area.y(), info_area.x());
 
     keypad(main_wnd, TRUE);
-    
+
     //init colors
     if (!has_colors()) {
         endwin();
@@ -240,12 +240,12 @@ void redraw_game() {
 
     // print frame
     int y = game_area.y(), x = game_area.x();
-    wmove(game_wnd, y, x);
+    wmove(game_wnd, y - 1, x);
     whline(game_wnd, '-', game_area.width());
 
     for (int i = 0; i < board_size; ++i) {
         y += game_area.height() / board_size;
-        wmove(game_wnd, y, x);
+        wmove(game_wnd, y - 1, x);
         whline(game_wnd, '-', game_area.width()); // horizontal lines
     }
 
@@ -253,12 +253,12 @@ void redraw_game() {
 
     for (int i = 0; i < board_size; ++i) {
         x += game_area.width() / board_size;
-        wmove(game_wnd, y, x);
-        wvline(game_wnd, '|', game_area.height()); // vertical lines
+        wmove(game_wnd, y - 1, x);
+        wvline(game_wnd, '|', game_area.height() - 1); // vertical lines
     }
 
-    wmove(game_wnd, game_area.y(), game_area.x());
-    wvline(game_wnd, '|', game_area.height());
+    wmove(game_wnd, game_area.y() - 1, game_area.x());
+    wvline(game_wnd, '|', game_area.height() - 1);
 
     // print nums
     y = game_area.y() + game_area.height() / (board_size * 2);
@@ -269,7 +269,7 @@ void redraw_game() {
             if (b.at(i, j)) {
                 auto num = std::to_string(b.at(i, j));
                 wattron(game_wnd, COLOR_PAIR(b.at(i, j)));
-                mvwprintw(game_wnd, y, x - num.size() / 2, "%s", num.c_str());
+                mvwprintw(game_wnd, y - 1, x - num.size() / 2, "%s", num.c_str());
                 wattroff(game_wnd, COLOR_PAIR(b.at(i, j)));
             }
             x += game_area.width() / board_size;

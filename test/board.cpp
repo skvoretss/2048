@@ -107,6 +107,22 @@ TEST(Board, Move_up) {
     EXPECT_EQ(b, expected_b);
     EXPECT_EQ(b.get_score(), 24);
     EXPECT_EQ(is_changed, true);
+    expected_b.clear();
+
+    // join 2 blocks with equal behind
+    b.add_block_for_test(3, 2, 4);
+    b.add_block_for_test(2, 2, 2);
+    b.add_block_for_test(1, 2, 2);
+    expected_b.add_block_for_test(0, 0, 8);
+    expected_b.add_block_for_test(1, 0, 2);
+    expected_b.add_block_for_test(0, 1, 8);
+    expected_b.add_block_for_test(0, 2, 4);
+    expected_b.add_block_for_test(1, 2, 4);
+    is_changed = b.update_board(UP);
+    EXPECT_EQ(b, expected_b);
+    EXPECT_EQ(b.get_score(), 36);
+    EXPECT_EQ(is_changed, true);
+    expected_b.clear();
 }
 
 TEST(Board, Move_down) {
@@ -174,6 +190,22 @@ TEST(Board, Move_down) {
     EXPECT_EQ(b, expected_b);
     EXPECT_EQ(b.get_score(), 24);
     EXPECT_EQ(is_changed, true);
+    expected_b.clear();
+
+    // join 2 blocks with equal behind
+    b.add_block_for_test(0, 2, 4);
+    b.add_block_for_test(1, 2, 2);
+    b.add_block_for_test(2, 2, 2);
+    expected_b.add_block_for_test(3, 0, 8);
+    expected_b.add_block_for_test(2, 0, 2);
+    expected_b.add_block_for_test(3, 1, 8);
+    expected_b.add_block_for_test(3, 2, 4);
+    expected_b.add_block_for_test(2, 2, 4);
+    is_changed = b.update_board(DOWN);
+    EXPECT_EQ(b, expected_b);
+    EXPECT_EQ(b.get_score(), 36);
+    EXPECT_EQ(is_changed, true);
+    expected_b.clear();
 }
 
 TEST(Board, Move_left) {
@@ -241,6 +273,22 @@ TEST(Board, Move_left) {
     EXPECT_EQ(b, expected_b);
     EXPECT_EQ(b.get_score(), 24);
     EXPECT_EQ(is_changed, true);
+    expected_b.clear();
+
+    // join 2 blocks with equal behind
+    b.add_block_for_test(2, 0, 2);
+    b.add_block_for_test(2, 1, 2);
+    b.add_block_for_test(2, 2, 4);
+    expected_b.add_block_for_test(0, 0, 8);
+    expected_b.add_block_for_test(0, 1, 2);
+    expected_b.add_block_for_test(1, 0, 8);
+    expected_b.add_block_for_test(2, 0, 4);
+    expected_b.add_block_for_test(2, 1, 4);
+    is_changed = b.update_board(LEFT);
+    EXPECT_EQ(b, expected_b);
+    EXPECT_EQ(b.get_score(), 36);
+    EXPECT_EQ(is_changed, true);
+    expected_b.clear();
 }
 
 TEST(Board, Move_right) {
@@ -308,6 +356,22 @@ TEST(Board, Move_right) {
     EXPECT_EQ(b, expected_b);
     EXPECT_EQ(b.get_score(), 24);
     EXPECT_EQ(is_changed, true);
+    expected_b.clear();
+
+    // join 2 blocks with equal behind
+    b.add_block_for_test(2, 3, 2);
+    b.add_block_for_test(2, 2, 2);
+    b.add_block_for_test(2, 1, 4);
+    expected_b.add_block_for_test(0, 3, 8);
+    expected_b.add_block_for_test(0, 2, 2);
+    expected_b.add_block_for_test(1, 3, 8);
+    expected_b.add_block_for_test(2, 3, 4);
+    expected_b.add_block_for_test(2, 2, 4);
+    is_changed = b.update_board(RIGHT);
+    EXPECT_EQ(b, expected_b);
+    EXPECT_EQ(b.get_score(), 36);
+    EXPECT_EQ(is_changed, true);
+    expected_b.clear();
 }
 
 TEST(Board, Lose) {

@@ -18,7 +18,7 @@ void Board::add_block(int multiplier) {
 }
 
 bool Board::update_board(int direction) {
-    bool is_changed = false;
+    bool is_changed = false, recursion_smash = false;
     static int board_size = static_cast<int>(board.size());
 
     switch(direction) {
@@ -29,15 +29,18 @@ bool Board::update_board(int direction) {
 
                 for (int j = 0; j < board_size; ++j) {
                     if (board[j][i]) {
-                        if (n > 0 && v[n - 1] == board[j][i]) {
+                        if (n > 0 && v[n - 1] == board[j][i] && !recursion_smash) {
                             v[n - 1] *= 2;
                             score += v[n - 1];
+                            recursion_smash = true;
                         }
                         else {
                             v[n] = board[j][i];
                             ++n;
+                            recursion_smash = false;
                         }
                     }
+                    else recursion_smash = false;
                 }
 
                 for (int j = 0; j != board_size; ++j) {
@@ -59,16 +62,18 @@ bool Board::update_board(int direction) {
 
                 for (int j = board_size - 1; j >= 0; --j) {
                     if (board[j][i]) {
-                        if (n < board_size - 1 && v[n + 1] == board[j][i]) { 
+                        if (n < board_size - 1 && v[n + 1] == board[j][i] && !recursion_smash) { 
                             v[n + 1] *= 2;
                             score += v[n + 1];
-
+                            recursion_smash = true;
                         }
                         else {
                             v[n] = board[j][i];
                             --n;
+                            recursion_smash = false;
                         }
                     }
+                    else recursion_smash = false;
                 }
 
                 for (int j = board_size - 1; j >= 0; --j) {
@@ -90,15 +95,18 @@ bool Board::update_board(int direction) {
 
                 for (int j = 0; j != board_size; ++j) {
                     if (board[i][j]) {
-                        if (n > 0 && v[n - 1] == board[i][j]) {
+                        if (n > 0 && v[n - 1] == board[i][j] && !recursion_smash) {
                             v[n - 1] *= 2;
                             score += v[n - 1];
+                            recursion_smash = true;
                         }
                         else {
                             v[n] = board[i][j];
                             ++n;
+                            recursion_smash = false;
                         }
                     }
+                    else recursion_smash = false;
                 }
 
                 for (int j = 0; j != board_size; ++j) {
@@ -119,15 +127,18 @@ bool Board::update_board(int direction) {
 
                 for (int j = board_size - 1; j >= 0; --j) {
                     if (board[i][j]) {
-                        if (n < board_size - 1 && v[n + 1] == board[i][j]) {
+                        if (n < board_size - 1 && v[n + 1] == board[i][j] && !recursion_smash) {
                             v[n + 1] *= 2;
                             score += v[n + 1];
+                            recursion_smash = true;
                         }
                         else {
                             v[n] = board[i][j];
                             --n;
+                            recursion_smash = false;
                         }
                     }
+                    else recursion_smash = false;
                 }
 
                 for (int j = 0; j != board_size; ++j) {
