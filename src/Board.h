@@ -3,7 +3,7 @@
 #include <ncurses.h>
 #include <random>
 #include <algorithm>
-#include "colors.h"
+#include "constants.h"
 
 class Board {
     std::vector<std::vector<int>> board;

@@ -6,7 +6,7 @@
 #include <cstdlib> 
 #include <ctime>
 #include "Board.h"
-#include "colors.h"
+#include "constants.h"
 
 int init();
 void run();
@@ -17,7 +17,6 @@ void restart();
 void redraw_game();
 void init_colors();
 void init_color_pairs();
-void clear_game();
 void win();
 void loss();
 void end();
