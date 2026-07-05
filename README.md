@@ -1,2 +1,2 @@
 Terminal 2048 game to have fun!
-![](https://asciinema.org/a/SvxfFEvAF8XisgyY)
+![](var/2048.gif)
