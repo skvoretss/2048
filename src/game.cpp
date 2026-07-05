@@ -215,11 +215,22 @@ void restart() {
 }
 
 void place_info() {
+    static std::string banner_1 = " ____   ___  _  _    ___";  
+    static std::string banner_2 = "|___ \\ / _ \\| || |  ( _ )"; 
+    static std::string banner_3 = "  __) | | | | || |_ / _ \\"; 
+    static std::string banner_4 = " / __/| |_| |__   _| (_) |";
+    static std::string banner_5 = "|_____|\\___/   |_|  \\___/ ";
+
     static std::string text_rules = "Join numbers to get the 2048 tile!";
     static std::string text_reset = "Press \"q\" to quit and \"r\" to restart";
+    mvwprintw(info_wnd, 1, 1, "%s", banner_1.c_str());
+    mvwprintw(info_wnd, 2, 1, "%s", banner_2.c_str());
+    mvwprintw(info_wnd, 3, 1, "%s", banner_3.c_str());
+    mvwprintw(info_wnd, 4, 1, "%s", banner_4.c_str());
+    mvwprintw(info_wnd, 5, 1, "%s", banner_5.c_str());
     wattron(info_wnd, A_ITALIC);
-    mvwprintw(info_wnd, 1, 1, "%s", text_rules.c_str());
-    mvwprintw(info_wnd, 2, 1, "%s", text_reset.c_str());
+    mvwprintw(info_wnd, 7, 1, "%s", text_rules.c_str());
+    mvwprintw(info_wnd, 8, 1, "%s", text_reset.c_str());
     wattroff(info_wnd, A_ITALIC);
     wrefresh(info_wnd);
 }
