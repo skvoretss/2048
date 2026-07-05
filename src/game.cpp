@@ -215,9 +215,11 @@ void restart() {
 }
 
 void place_info() {
-    static std::string text = "Press \"q\" to quit and \"r\" to restart";
+    static std::string text_rules = "Join numbers to get the 2048 tile!";
+    static std::string text_reset = "Press \"q\" to quit and \"r\" to restart";
     wattron(info_wnd, A_ITALIC);
-    mvwprintw(info_wnd, 1, 1, "%s", text.c_str());
+    mvwprintw(info_wnd, 1, 1, "%s", text_rules.c_str());
+    mvwprintw(info_wnd, 2, 1, "%s", text_reset.c_str());
     wattroff(info_wnd, A_ITALIC);
     wrefresh(info_wnd);
 }
