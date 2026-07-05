@@ -11,11 +11,6 @@
 #define COLOR_LIME_GREEN 16
 #define COLOR_NEON_GREEN 17
 #define COLOR_MINT 18
-#define COLOR_LINES 19
-#define COLOR_MAIN_TEXT 20
-#define COLOR_INFO_TEXT 21
-#define COLOR_WIN_TEXT 22
-#define COLOR_LOSS_TEXT 23
 
 #define UP 1
 #define DOWN 2

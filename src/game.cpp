@@ -80,20 +80,14 @@ void init_colors() {
     init_color(COLOR_LIME_GREEN, 50, 205, 50); // 512
     init_color(COLOR_NEON_GREEN, 27, 251, 68); // 1024
     init_color(COLOR_MINT, 9, 255, 110); // 2048
-
-    init_color(COLOR_LINES, 127, 255, 0); // lines
-    init_color(COLOR_MAIN_TEXT, 122, 255, 46); // main text
-    init_color(COLOR_INFO_TEXT, 185, 253, 146); // info text
-    init_color(COLOR_WIN_TEXT, 37, 255, 81); // win text
-    init_color(COLOR_LOSS_TEXT, 247, 51, 51); // loss text
 }
 
 void init_color_pairs() {
-    init_pair(1, COLOR_LINES, COLOR_BLACK);
-    init_pair(3, COLOR_MAIN_TEXT, COLOR_BLACK);
-    init_pair(5, COLOR_INFO_TEXT, COLOR_BLACK);
-    init_pair(7, COLOR_WIN_TEXT, COLOR_BLACK);
-    init_pair(9, COLOR_LOSS_TEXT, COLOR_BLACK);
+    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(5, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(7, COLOR_GREEN, COLOR_BLACK); // win
+    init_pair(9, COLOR_RED, COLOR_BLACK); // loss
 
     init_pair(2, COLOR_LIGHT_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_LIGT_YELLOW_GREEN, COLOR_BLACK);
