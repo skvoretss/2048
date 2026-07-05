@@ -11,7 +11,8 @@ void Board::add_block(int multiplier) {
         y = std::rand() % 4; 
     }
 
-    if (get_max() > 512) multiplier += std::rand() % 2;
+    if (get_max() > 512)
+        multiplier = std::rand() % 101 > 80 ? 2 : 1;
 
     board[x][y] = 2 * multiplier;
 }

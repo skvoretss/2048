@@ -9,17 +9,17 @@
 #include "constants.h"
 
 int init();
-void run();
-void place_info();
-void update_score();
-void quit();
-void restart();
-void redraw_game();
 void init_colors();
 void init_color_pairs();
+void run();
+void after_end();
+void quit();
+void restart();
+void place_info();
+void update_score();
+void redraw_game();
 void win();
 void loss();
-void end();
 
 class Area {
     std::pair<uint, uint> size;

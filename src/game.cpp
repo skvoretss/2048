@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include "game.h"
 
-WINDOW* main_wnd;
+WINDOW *main_wnd;
 WINDOW *game_wnd;
 WINDOW *score_wnd;
 WINDOW *info_wnd;
@@ -15,14 +15,10 @@ Board b;
 
 int init() {
     initscr();
-
     cbreak();
     noecho();
     clear();
     refresh();
-    keypad(game_wnd, true);
-    //nodelay(wnd, true);
-    //usleep(10000);
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     //init windows
@@ -36,6 +32,8 @@ int init() {
     score_wnd = newwin(score_area.height(), score_area.width(), score_area.y(), score_area.x());
     info_wnd = newwin(info_area.height(), info_area.width(), info_area.y(), info_area.x());
 
+    keypad(main_wnd, TRUE);
+    
     //init colors
     if (!has_colors()) {
         endwin();
@@ -52,7 +50,6 @@ int init() {
     wbkgd(score_wnd, COLOR_PAIR(3));
     wbkgd(main_wnd, COLOR_PAIR(1));
 
-    //box(game_wnd, 0, 0);
     box(info_wnd, 0, 0);
     box(score_wnd, 0, 0);
     box(main_wnd, 0, 0);
@@ -70,6 +67,46 @@ int init() {
     b = Board();
 
     return 0;
+}
+void init_colors() {
+    init_color(COLOR_LIGHT_YELLOW, 255, 255, 224); // 2
+    init_color(COLOR_LIGT_YELLOW_GREEN, 222, 249, 117); // 4
+    init_color(COLOR_PALE_GREEN, 152, 251, 152); // 8
+    init_color(COLOR_MEDIUM_SPRING_GREEN, 0, 250, 154); // 16
+    init_color(COLOR_SPRING_GREEN, 0, 255, 127); // 32
+    init_color(COLOR_GREEN_YELLOW, 173, 255, 47); // 56
+    init_color(COLOR_LAWN_GREEN, 124, 252, 0); // 128
+    init_color(COLOR_LIME, 0, 255, 0); // 256
+    init_color(COLOR_LIME_GREEN, 50, 205, 50); // 512
+    init_color(COLOR_NEON_GREEN, 27, 251, 68); // 1024
+    init_color(COLOR_MINT, 9, 255, 110); // 2048
+
+    init_color(COLOR_LINES, 127, 255, 0); // lines
+    init_color(COLOR_MAIN_TEXT, 122, 255, 46); // main text
+    init_color(COLOR_INFO_TEXT, 185, 253, 146); // info text
+    init_color(COLOR_WIN_TEXT, 37, 255, 81); // win text
+    init_color(COLOR_LOSS_TEXT, 247, 51, 51); // loss text
+}
+
+void init_color_pairs() {
+    init_pair(1, COLOR_LINES, COLOR_BLACK);
+    init_pair(3, COLOR_MAIN_TEXT, COLOR_BLACK);
+    init_pair(5, COLOR_INFO_TEXT, COLOR_BLACK);
+    init_pair(7, COLOR_WIN_TEXT, COLOR_BLACK);
+    init_pair(9, COLOR_LOSS_TEXT, COLOR_BLACK);
+
+    init_pair(2, COLOR_LIGHT_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_LIGT_YELLOW_GREEN, COLOR_BLACK);
+    init_pair(8, COLOR_PALE_GREEN, COLOR_BLACK);
+    init_pair(16, COLOR_MEDIUM_SPRING_GREEN, COLOR_BLACK);
+    init_pair(32, COLOR_SPRING_GREEN, COLOR_BLACK);
+    init_pair(64, COLOR_GREEN_YELLOW, COLOR_BLACK);
+    init_pair(128, COLOR_LAWN_GREEN, COLOR_BLACK);
+    init_pair(256, COLOR_LIME, COLOR_BLACK);
+    init_pair(512, COLOR_LIME_GREEN, COLOR_BLACK);
+    init_pair(1024, COLOR_NEON_GREEN, COLOR_BLACK);
+    init_pair(2048, COLOR_MINT, COLOR_BLACK);
+
 }
 
 void run() {
@@ -138,7 +175,7 @@ void run() {
     }
 }
 
-void end() {
+void after_end() {
     bool exit_requested = false, restart_requested = false;
     int in_char;
 
@@ -166,47 +203,15 @@ void end() {
     }
 }
 
-void init_colors() {
-
-    init_color(COLOR_LIGHT_YELLOW, 255, 255, 224); // 2
-    init_color(COLOR_LIGT_YELLOW_GREEN, 222, 249, 117); // 4
-    init_color(COLOR_PALE_GREEN, 152, 251, 152); // 8
-    init_color(COLOR_MEDIUM_SPRING_GREEN, 0, 250, 154); // 16
-    init_color(COLOR_SPRING_GREEN, 0, 255, 127); // 32
-    init_color(COLOR_GREEN_YELLOW, 173, 255, 47); // 56
-    init_color(COLOR_LAWN_GREEN, 124, 252, 0); // 128
-    init_color(COLOR_LIME, 0, 255, 0); // 256
-    init_color(COLOR_LIME_GREEN, 50, 205, 50); // 512
-    init_color(COLOR_NEON_GREEN, 27, 251, 68); // 1024
-    init_color(COLOR_MINT, 9, 255, 110); // 2048
-
-    init_color(COLOR_LINES, 127, 255, 0); // lines
-    init_color(COLOR_MAIN_TEXT, 122, 255, 46); // main text
-    init_color(COLOR_INFO_TEXT, 185, 253, 146); // info text
-    init_color(COLOR_WIN_TEXT, 37, 255, 81); // win text
-    init_color(COLOR_LOSS_TEXT, 247, 51, 51); // loss text
+void quit() {
+    endwin();
 }
 
-void init_color_pairs() {
-
-    init_pair(1, COLOR_LINES, COLOR_BLACK);
-    init_pair(3, COLOR_MAIN_TEXT, COLOR_BLACK);
-    init_pair(5, COLOR_INFO_TEXT, COLOR_BLACK);
-    init_pair(7, COLOR_WIN_TEXT, COLOR_BLACK);
-    init_pair(9, COLOR_LOSS_TEXT, COLOR_BLACK);
-
-    init_pair(2, COLOR_LIGHT_YELLOW, COLOR_BLACK);
-    init_pair(4, COLOR_LIGT_YELLOW_GREEN, COLOR_BLACK);
-    init_pair(8, COLOR_PALE_GREEN, COLOR_BLACK);
-    init_pair(16, COLOR_MEDIUM_SPRING_GREEN, COLOR_BLACK);
-    init_pair(32, COLOR_SPRING_GREEN, COLOR_BLACK);
-    init_pair(64, COLOR_GREEN_YELLOW, COLOR_BLACK);
-    init_pair(128, COLOR_LAWN_GREEN, COLOR_BLACK);
-    init_pair(256, COLOR_LIME, COLOR_BLACK);
-    init_pair(512, COLOR_LIME_GREEN, COLOR_BLACK);
-    init_pair(1024, COLOR_NEON_GREEN, COLOR_BLACK);
-    init_pair(2048, COLOR_MINT, COLOR_BLACK);
-
+void restart() {
+    b.clear();
+    update_score();
+    werase(game_wnd);
+    run();
 }
 
 void place_info() {
@@ -229,17 +234,6 @@ void update_score() {
     wrefresh(score_wnd);
 }
 
-void quit() {
-    endwin();
-}
-
-void restart() {
-    b.clear();
-    update_score();
-    werase(game_wnd);
-    run();
-}
-
 void redraw_game() {
     werase(game_wnd);
     int board_size = b.size();
@@ -252,7 +246,7 @@ void redraw_game() {
     for (int i = 0; i < board_size; ++i) {
         y += game_area.height() / board_size;
         wmove(game_wnd, y, x);
-        whline(game_wnd, '-', game_area.width()); // horizontal
+        whline(game_wnd, '-', game_area.width()); // horizontal lines
     }
 
     y = game_area.y();
@@ -260,7 +254,7 @@ void redraw_game() {
     for (int i = 0; i < board_size; ++i) {
         x += game_area.width() / board_size;
         wmove(game_wnd, y, x);
-        wvline(game_wnd, '|', game_area.height()); //vertical
+        wvline(game_wnd, '|', game_area.height()); // vertical lines
     }
 
     wmove(game_wnd, game_area.y(), game_area.x());
@@ -298,7 +292,7 @@ void win() {
     wattroff(game_wnd, COLOR_PAIR(7));
     wattroff(game_wnd, A_BOLD);
     wrefresh(game_wnd);
-    end();
+    after_end();
 }
 
 void loss() {
@@ -310,5 +304,5 @@ void loss() {
     mvwprintw(game_wnd, game_area.height() / 2, (game_area.width() - text.size()) / 2, "%s", text.c_str());
     wattroff(game_wnd, A_BOLD | COLOR_PAIR(9));
     wrefresh(game_wnd);
-    end();
+    after_end();
 }
