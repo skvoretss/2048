@@ -15,6 +15,7 @@ Board b;
 
 int init() {
     initscr();
+
     cbreak();
     noecho();
     clear();
@@ -26,7 +27,7 @@ int init() {
 
     //init windows
     screen_area = Area();
-    game_area = Area({screen_area.width() / 2 - 2, screen_area.height() - 2}, {1, 1}); //?
+    game_area = Area({screen_area.width() / 2 - 2, screen_area.height() - 2}, {1, 1});
     score_area = Area({screen_area.width() / 2 - 2, screen_area.height() / 4 - 2}, {game_area.width() + 2, 1});
     info_area = Area({screen_area.width() / 2 - 2, screen_area.height() / 4 * 3 - 2}, {game_area.width() + 2, score_area.height() + 2});
 
@@ -50,6 +51,7 @@ int init() {
     wbkgd(info_wnd, COLOR_PAIR(5));
     wbkgd(score_wnd, COLOR_PAIR(3));
     wbkgd(main_wnd, COLOR_PAIR(1));
+
     //box(game_wnd, 0, 0);
     box(info_wnd, 0, 0);
     box(score_wnd, 0, 0);
@@ -136,6 +138,34 @@ void run() {
     }
 }
 
+void end() {
+    bool exit_requested = false, restart_requested = false;
+    int in_char;
+
+    while(1) {
+        in_char = wgetch(main_wnd);
+        in_char = tolower(in_char);
+        switch(in_char) {
+            case 'q':
+                exit_requested = true;
+                break;
+            case 'r':
+                restart_requested = true;
+                break;
+            default:
+                break;
+        }
+
+        if (exit_requested) {
+            return quit();
+        }
+
+        if (restart_requested) {
+            return restart();
+        }
+    }
+}
+
 void init_colors() {
 
     init_color(COLOR_LIGHT_YELLOW, 255, 255, 224); // 2
@@ -153,15 +183,17 @@ void init_colors() {
     init_color(COLOR_LINES, 127, 255, 0); // lines
     init_color(COLOR_MAIN_TEXT, 122, 255, 46); // main text
     init_color(COLOR_INFO_TEXT, 185, 253, 146); // info text
-
+    init_color(COLOR_WIN_TEXT, 37, 255, 81); // win text
+    init_color(COLOR_LOSS_TEXT, 247, 51, 51); // loss text
 }
 
 void init_color_pairs() {
-    //init_pair(1, COLOR_WHITE, COLOR_BLUE);
 
     init_pair(1, COLOR_LINES, COLOR_BLACK);
     init_pair(3, COLOR_MAIN_TEXT, COLOR_BLACK);
     init_pair(5, COLOR_INFO_TEXT, COLOR_BLACK);
+    init_pair(7, COLOR_WIN_TEXT, COLOR_BLACK);
+    init_pair(9, COLOR_LOSS_TEXT, COLOR_BLACK);
 
     init_pair(2, COLOR_LIGHT_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_LIGT_YELLOW_GREEN, COLOR_BLACK);
@@ -178,51 +210,34 @@ void init_color_pairs() {
 }
 
 void place_info() {
-    static std::string text = " Press \"q\" to quit and \"r\" to restart";
+    static std::string text = "Press \"q\" to quit and \"r\" to restart";
     wattron(info_wnd, A_ITALIC);
-
-    for(size_t i = 0; i < text.size(); i++) 
-        waddch(info_wnd, text[i]);
-
+    mvwprintw(info_wnd, 1, 1, "%s", text.c_str());
     wattroff(info_wnd, A_ITALIC);
     wrefresh(info_wnd);
 }
 
 void update_score() {
     werase(score_wnd);
+    box(score_wnd, 0, 0);
     static std::string text = "Score";
     wattron(score_wnd, A_ITALIC);
-
-    for(size_t i = 0; i < text.size(); i++) 
-        waddch(score_wnd, text[i]);
-
-    waddch(score_wnd, '\n');
+    mvwprintw(score_wnd, 1, 1, "%s", text.c_str());
     std::string value = std::to_string(b.get_score());
-
-    for(size_t i = 0; i < value.size(); i++) 
-        waddch(score_wnd, value[i]);
-
+    mvwprintw(score_wnd, 2, 1, "%s", value.c_str());
     wattroff(score_wnd, A_ITALIC);
     wrefresh(score_wnd);
 }
 
 void quit() {
-    close();
+    endwin();
 }
 
 void restart() {
     b.clear();
     update_score();
-    clear_game();
-    run();
-}
-
-void close() {
-    endwin();
-}
-
-void clear_game() {
     werase(game_wnd);
+    run();
 }
 
 void redraw_game() {
@@ -257,10 +272,12 @@ void redraw_game() {
 
     for (int i = 0; i < board_size; ++i) {
         for (int j = 0; j < board_size; ++j) {
-            auto num = std::to_string(b.at(i, j));
-            wattron(game_wnd, COLOR_PAIR(b.at(i, j)));
-            mvwprintw(game_wnd, y, x - num.size() / 2, "%s", num.c_str());
-            wattroff(game_wnd, COLOR_PAIR(b.at(i, j)));
+            if (b.at(i, j)) {
+                auto num = std::to_string(b.at(i, j));
+                wattron(game_wnd, COLOR_PAIR(b.at(i, j)));
+                mvwprintw(game_wnd, y, x - num.size() / 2, "%s", num.c_str());
+                wattroff(game_wnd, COLOR_PAIR(b.at(i, j)));
+            }
             x += game_area.width() / board_size;
         }
 
@@ -271,27 +288,27 @@ void redraw_game() {
     wrefresh(game_wnd);
 }
 
-
 void win() {
     werase(game_wnd);
+    box(game_wnd, 0, 0);
     static std::string text = "You won!";
-    wattron(game_wnd, A_ITALIC);
-
-    for(size_t i = 0; i < text.size(); i++) 
-        waddch(game_wnd, text[i]);
-
-    wattroff(game_wnd, A_ITALIC);
+    wattron(game_wnd, A_BOLD);
+    wattron(game_wnd, COLOR_PAIR(7));
+    mvwprintw(game_wnd, game_area.height() / 2, (game_area.width() - text.size()) / 2, "%s", text.c_str());
+    wattroff(game_wnd, COLOR_PAIR(7));
+    wattroff(game_wnd, A_BOLD);
     wrefresh(game_wnd);
+    end();
 }
 
 void loss() {
     werase(game_wnd);
-    static std::string text = "You lost(";
-    wattron(game_wnd, A_ITALIC);
-
-    for(size_t i = 0; i < text.size(); i++) 
-        waddch(game_wnd, text[i]);
-
-    wattroff(game_wnd, A_ITALIC);
+    box(game_wnd, 0, 0);
+    static std::string text = "You lost :(";
+    wattron(game_wnd, A_BOLD);
+    wattron(game_wnd, COLOR_PAIR(9));
+    mvwprintw(game_wnd, game_area.height() / 2, (game_area.width() - text.size()) / 2, "%s", text.c_str());
+    wattroff(game_wnd, A_BOLD | COLOR_PAIR(9));
     wrefresh(game_wnd);
+    end();
 }

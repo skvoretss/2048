@@ -10,7 +10,6 @@
 
 int init();
 void run();
-void close();
 void place_info();
 void update_score();
 void quit();
@@ -21,6 +20,7 @@ void init_color_pairs();
 void clear_game();
 void win();
 void loss();
+void end();
 
 class Area {
     std::pair<uint, uint> size;

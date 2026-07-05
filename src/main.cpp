@@ -7,7 +7,7 @@ int main(int argv, char** argc) {
     if (init_status == 0)
         run();
 
-    close();
+    endwin();
 
     return 0;
 }
