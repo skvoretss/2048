@@ -90,22 +90,22 @@ void run() {
             case KEY_UP:
             case 'w':
             case 'i':
-                is_changed = b.update_board(1);
+                is_changed = b.update_board(UP);
                 break;
             case KEY_DOWN:
             case 's':
             case 'k':
-                is_changed = b.update_board(2);
+                is_changed = b.update_board(DOWN);
                 break;
             case KEY_LEFT:
             case 'a':
             case 'j':
-                is_changed = b.update_board(3);
+                is_changed = b.update_board(LEFT);
                 break;
             case KEY_RIGHT:
             case 'd':
             case 'l':
-                is_changed = b.update_board(4);
+                is_changed = b.update_board(RIGHT);
                 break;
             default:
                 break;

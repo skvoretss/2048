@@ -14,3 +14,8 @@
 #define COLOR_LINES 19
 #define COLOR_MAIN_TEXT 20
 #define COLOR_INFO_TEXT 21
+
+#define UP 1
+#define DOWN 2
+#define LEFT 3
+#define RIGHT 4

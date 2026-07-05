@@ -1,20 +1,7 @@
 #include "Board.h"
-#include <random>
-#include <algorithm>
 
 void Board::add_block(int multiplier) {
-    bool no_zero = true;
-
-    for (size_t i = 0; i < board.size(); ++i) {
-        for (size_t j = 0; j < board.size(); ++j) {
-            if (board[i][j] == 0) {
-                no_zero = false;
-                break;
-            }
-        }
-    }
-
-    if (no_zero) return;
+    if (get_min()) return;
 
     int x = std::rand() % 4; 
     int y = std::rand() % 4; 
@@ -24,6 +11,8 @@ void Board::add_block(int multiplier) {
         y = std::rand() % 4; 
     }
 
+    if (get_max() > 512) multiplier += std::rand() % 2;
+
     board[x][y] = 2 * multiplier;
 }
 
@@ -32,7 +21,7 @@ bool Board::update_board(int direction) {
     static int board_size = static_cast<int>(board.size());
 
     switch(direction) {
-        case 1: // up
+        case UP:
             for (int i = 0; i != board_size; ++i) {
                 int n = 0;
                 std::vector<int> v(board_size, 0);
@@ -62,7 +51,7 @@ bool Board::update_board(int direction) {
                         board[j][i] = v[j];
             }
             break;
-        case 2: // down
+        case DOWN:
             for (int i = 0; i < board_size; ++i) {
                 int n = board_size - 1;
                 std::vector<int> v(board_size, 0);
@@ -93,7 +82,7 @@ bool Board::update_board(int direction) {
                         board[j][i] = v[j];
             }
             break;
-        case 3: // left
+        case LEFT:
             for (int i = 0; i != board_size; ++i) {
                 size_t n = 0;
                 std::vector<int> v(board_size, 0);
@@ -122,7 +111,7 @@ bool Board::update_board(int direction) {
                     board[i] = v;
             }
             break;
-        case 4: // right
+        case RIGHT:
             for (int i = 0; i != board_size; ++i) {
                 int n = board_size - 1;
                 std::vector<int> v(board_size, 0);
@@ -192,10 +181,21 @@ int Board::check_win() const {
 int Board::get_max() const {
     int cur_max = 0;
 
-    for (int i = 0; i < static_cast<int>(board.size()); ++i) 
-        for (int j = 0; j < static_cast<int>(board.size()); ++j) 
-            cur_max = std::max(board[i][j], cur_max);
+    for (const auto& row: board) 
+        for (const auto& val: row) 
+            cur_max = std::max(val, cur_max);
     
     return cur_max;
+
+}
+
+int Board::get_min() const {
+    int cur_min = board[0][0];
+
+    for (const auto& row: board) 
+        for (const auto& val: row) 
+            cur_min = std::min(val, cur_min);
+    
+    return cur_min;
 
 }
