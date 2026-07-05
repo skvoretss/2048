@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <cstdlib> 
 #include <ctime>
+#include <ncurses.h>
 #include "Board.h"
 #include "constants.h"
 

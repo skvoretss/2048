@@ -15,7 +15,7 @@ class Board {
 
     void add_block(int multiplier = 1);
     void add_block_for_test(int i, int j, int val = 2) { board[i][j] = val; };
-    bool update_board(int direction);
+    bool update_board(Direction direction);
     int check_win() const;
     void clear() { board = std::vector(4, std::vector(4, 0)); score = 0; };
     int at(size_t i, size_t j) const { return board[i][j]; };

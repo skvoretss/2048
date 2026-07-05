@@ -17,12 +17,12 @@ void Board::add_block(int multiplier) {
     board[x][y] = 2 * multiplier;
 }
 
-bool Board::update_board(int direction) {
+bool Board::update_board(Direction direction) {
     bool is_changed = false, recursion_smash = false;
     static int board_size = static_cast<int>(board.size());
 
     switch(direction) {
-        case UP:
+        case Direction::UP:
             for (int i = 0; i != board_size; ++i) {
                 int n = 0;
                 std::vector<int> v(board_size, 0);
@@ -55,7 +55,7 @@ bool Board::update_board(int direction) {
                         board[j][i] = v[j];
             }
             break;
-        case DOWN:
+        case Direction::DOWN:
             for (int i = 0; i < board_size; ++i) {
                 int n = board_size - 1;
                 std::vector<int> v(board_size, 0);
@@ -88,7 +88,7 @@ bool Board::update_board(int direction) {
                         board[j][i] = v[j];
             }
             break;
-        case LEFT:
+        case Direction::LEFT:
             for (int i = 0; i != board_size; ++i) {
                 size_t n = 0;
                 std::vector<int> v(board_size, 0);
@@ -120,7 +120,7 @@ bool Board::update_board(int direction) {
                     board[i] = v;
             }
             break;
-        case RIGHT:
+        case Direction::RIGHT:
             for (int i = 0; i != board_size; ++i) {
                 int n = board_size - 1;
                 std::vector<int> v(board_size, 0);

@@ -1,4 +1,3 @@
-#include <ncurses.h>
 #include "game.h"
 
 WINDOW *main_wnd;
@@ -84,10 +83,8 @@ void init_colors() {
 
 void init_color_pairs() {
     init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(5, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(7, COLOR_GREEN, COLOR_BLACK); // win
-    init_pair(9, COLOR_RED, COLOR_BLACK); // loss
+    init_pair(3, COLOR_GREEN, COLOR_BLACK); // win
+    init_pair(5, COLOR_RED, COLOR_BLACK); // loss
 
     init_pair(2, COLOR_LIGHT_YELLOW, COLOR_BLACK);
     init_pair(4, COLOR_LIGT_YELLOW_GREEN, COLOR_BLACK);
@@ -123,22 +120,22 @@ void run() {
             case KEY_UP:
             case 'w':
             case 'i':
-                is_changed = b.update_board(UP);
+                is_changed = b.update_board(Direction::UP);
                 break;
             case KEY_DOWN:
             case 's':
             case 'k':
-                is_changed = b.update_board(DOWN);
+                is_changed = b.update_board(Direction::DOWN);
                 break;
             case KEY_LEFT:
             case 'a':
             case 'j':
-                is_changed = b.update_board(LEFT);
+                is_changed = b.update_board(Direction::LEFT);
                 break;
             case KEY_RIGHT:
             case 'd':
             case 'l':
-                is_changed = b.update_board(RIGHT);
+                is_changed = b.update_board(Direction::RIGHT);
                 break;
             default:
                 break;
@@ -293,10 +290,9 @@ void win() {
     werase(game_wnd);
     box(game_wnd, 0, 0);
     static std::string text = "You won!";
-    wattron(game_wnd, A_BOLD);
-    wattron(game_wnd, COLOR_PAIR(7));
+    wattron(game_wnd, A_BOLD | COLOR_PAIR(3));
     mvwprintw(game_wnd, game_area.height() / 2, (game_area.width() - text.size()) / 2, "%s", text.c_str());
-    wattroff(game_wnd, COLOR_PAIR(7));
+    wattroff(game_wnd, COLOR_PAIR(3) | COLOR_PAIR(3));
     wattroff(game_wnd, A_BOLD);
     wrefresh(game_wnd);
     after_end();
@@ -306,10 +302,9 @@ void loss() {
     werase(game_wnd);
     box(game_wnd, 0, 0);
     static std::string text = "You lost :(";
-    wattron(game_wnd, A_BOLD);
-    wattron(game_wnd, COLOR_PAIR(9));
+    wattron(game_wnd, A_BOLD | COLOR_PAIR(5));
     mvwprintw(game_wnd, game_area.height() / 2, (game_area.width() - text.size()) / 2, "%s", text.c_str());
-    wattroff(game_wnd, A_BOLD | COLOR_PAIR(9));
+    wattroff(game_wnd, A_BOLD | COLOR_PAIR(5));
     wrefresh(game_wnd);
     after_end();
 }
